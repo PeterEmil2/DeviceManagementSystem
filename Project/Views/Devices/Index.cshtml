@@ -1,0 +1,91 @@
+﻿@model List<Project.Models.Device>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .card, .card2 {
+            width: 30%;
+            height: 250px;
+            margin: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+            .card:hover, .card2:hover {
+                transform: scale(1.05);
+                background-color: rgba(255, 255, 255, 0.3);
+            }
+
+            .card img, .card2 img {
+                width: 80%;
+                height: 80%;
+                object-fit: cover;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: auto;
+            }
+
+            .card h3, .card2 h3 {
+                margin: 10px 0;
+                color: #333;
+                font-size: 18px;
+            }
+
+        .card2 {
+            width: auto;
+            height: auto;
+        }
+
+            .card2 img {
+                width: 200px;
+                height: 260px;
+            }
+    </style>
+</head>
+<body>
+    @{
+        string userRole = ViewBag.UserRole;
+    }
+    <div class="card-container">
+        @if (userRole == "Admin")
+        {
+            <a href="@Url.Action("getDeviceForm", "Devices")" class="card">
+                <img src="/images/uq5v7ailsrvcumzi0bkc.JPG" />
+            <h3 style="color: white">Add Device</h3>
+             </a>
+        }
+        @foreach (var device in Model)
+        {
+            @if (@device.categoryId == 1)
+            {
+                <a href="@Url.Action("getDevicedetails", "Devices", new { id = device.Id })" class="card">
+                    <img src="@device.imageURL" alt="@device.Name" />
+                    <h3 style="color: white">@device.Name</h3>
+                </a>
+            }
+            @if (@device.categoryId == 2)
+            {
+                <a href="@Url.Action("getDevicedetails", "Devices", new { id = device.Id })" class="card2">
+                    <img src="@device.imageURL" alt="@device.Name" />
+                    <h3 style="color: white">@device.Name</h3>
+                </a>
+            }
+        }
+    </div>
+</body>
+</html>

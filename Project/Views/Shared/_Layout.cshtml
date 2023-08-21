@@ -1,0 +1,124 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Project</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Project.styles.css" asp-append-version="true" />
+
+    
+    <link href="~/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <link href="~/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <style>
+
+        body {
+            color: white;
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-image: url('/images/bryn-young-5kmja_aE1vI-unsplash.jpg');
+            /* The following line will make the background image cover the entire viewport */
+            background-size: 100% 100vh;
+        }
+    </style>
+</head>
+<body >
+    @{
+        string role = ViewBag.userRole;
+    }
+    <header>
+        <nav style="background-color: rgba(255, 255, 255, 0.7);" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+
+               
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Paitoor</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (role != "")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Devices" asp-action="Index">Home</a>
+                            </li>
+                        }
+                        @if (role == "Admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Devices" asp-action="getDeviceForm">Add Device</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                @if (role != "")
+                {
+                    <div style="display: flex; align-items: center; padding-right:550px;">
+                        <select class="form-control me-2" name="categoryValue" id="categorySelect">
+                            <option value="">All Categories</option>
+                            <option value="1">Laptops</option>
+                            <option value="2">Phones</option>
+                            @if (role == "Admin")
+                            {
+                                <option value="add">Add Category</option>
+                            }
+                        </select>
+                    </div>
+                }
+
+                <script>
+                    document.getElementById("categorySelect").addEventListener("change", function (event) {
+                        var selectedCategoryId = event.target.value;
+                        if (selectedCategoryId !== "add") {
+                            // Redirect or perform other actions based on the selected category
+                            window.location.href = '@Url.Action("getCategoryValue", "Devices")?Id=' + encodeURIComponent(selectedCategoryId);
+                       
+                        }
+                        else{
+                        window.location.href = "@Url.Action("Index", "Categories")";
+                        }
+                    });
+
+
+                   
+                </script>
+                @if (role != "")
+{
+                <form class="d-flex" method="get" asp-controller="Devices" asp-action="getDeviceByName">
+                    <input class="form-control me-2" type="search" placeholder="Search by Device Name" aria-label="Search" name="searchQuery">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+}
+                <div style="display: flex; justify-content: space-between; padding-left:300px;" class="mt-1">
+                    <a class="nav-item nav-link text-dark" style="" asp-area="" asp-controller="Users" asp-action="LogOutAction">SignUp</a>
+                    <a class="nav-item nav-link text-dark" asp-area="" asp-controller="Users" asp-action="LogOutAction">LogOut</a>
+                </div>
+
+
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted" style="position: absolute; bottom: 0; width: 100%;">
+        <div class="container">
+            &copy; 2023 - Project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

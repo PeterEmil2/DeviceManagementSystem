@@ -1,0 +1,130 @@
+﻿@model Project.Models.Device
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Device Form</title>
+    <style>
+
+        .form-button-container {
+            text-align: center;
+            margin-top: 80px; /* Add some margin to create space between the form and the button */
+        }
+
+        .content-container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+
+        .form-container {
+            display: flex;
+          
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            background-size: cover;
+            margin-top: 60px;
+        }
+
+        .form-content {
+            height:660px;
+            max-width: 600px;
+            width:450px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+                   margin: 0 auto; /* Center the form horizontally */
+      
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+
+        .form-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+           
+        }
+
+        .right-image {
+            flex: 1;
+            padding-left: 300px;
+            padding-top: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-container">
+        <div class="form-container">
+
+            @using (Html.BeginForm("AddNewDevice", "Devices", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+   
+                <div class="form-content">
+                    <label class="form-label" for="name">Enter device name:</label>
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-input" })
+                    @Html.ValidationMessageFor(m => m.Name)
+
+                    <label class="form-label" for="description">Enter device description:</label>
+                    @Html.TextBoxFor(m => m.Description, new { @class = "form-input" })
+                    @Html.ValidationMessageFor(m => m.Description)
+
+                    <label class="form-label" for="price">Enter device price:</label>
+                    @Html.TextBoxFor(m => m.Price, new { @class = "form-input" })
+                    @Html.ValidationMessageFor(m => m.Price)
+
+                    <div style="margin-top: 20px;">
+                        <label class="form-label" for="imageFile">Image:</label>
+                        <input type="file" name="imageFormFile" id="imageFile" accept=".png, .jpg, .JPEG" style="display: block; margin-top: 5px;">
+                        <span class="text-danger"><!-- Validation Message for Image --></span>
+                    </div>
+                    <div>
+                        <label class="form-label" for="categoryId">Select a category:</label>
+                        <select class="form-control" name="categoryId" id="categoryId">
+                            <option value="1">Laptops</option>
+                            <option value="2">Phones</option>
+                        </select>
+                    </div>
+
+                    <div class="form-button-container">
+                        <button type="submit" class="form-button">Upload</button>
+                    </div>
+                </div>
+            }    
+
+    </div>
+</body>
+</html>
+
+
+@section scripts{
+    <script>
+        function addimage()
+        {
+            document.getElementById("imageFile").src=window.URl.creatObjectURL(document.getElementById("imageFile").files[0]);
+        }
+    </script>
+    }
